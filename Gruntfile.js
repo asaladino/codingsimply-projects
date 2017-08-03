@@ -13,6 +13,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         src: [
+                            'vendor/**',
                             'src/**',
                             '*.php',
                             'README.md',
