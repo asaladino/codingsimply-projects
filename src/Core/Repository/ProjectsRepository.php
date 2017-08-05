@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Core\Repository;
+namespace CodingSimplyProjects\Core\Repository;
 
 use CodingSimplyProjects\Config\Config;
 use CodingSimplyProjects\Model\Project;

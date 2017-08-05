@@ -50,7 +50,7 @@ class Project {
 	/**
 	 * @var \WP_Post
 	 */
-	protected $post;
+	public $post;
 
 	/**
 	 * @var string
