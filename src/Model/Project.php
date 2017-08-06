@@ -242,7 +242,7 @@ class Project {
 		];
 		$args   = [
 			'label'               => __( 'Project', Config::TEXT_DOMAIN ),
-//			'description'         => __( 'Project Description', Config::TEXT_DOMAIN ),
+			'description'         => __( 'Project Description', Config::TEXT_DOMAIN ),
 			'labels'              => $labels,
 			'supports'            => [],
 			'taxonomies'          => [ 'category', 'post_tag' ],
