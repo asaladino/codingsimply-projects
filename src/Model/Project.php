@@ -18,6 +18,11 @@ class Project {
 	public $git_url;
 
 	/**
+	 * @var bool
+	 */
+	public $promote;
+
+	/**
 	 * @var string
 	 */
 	public $icon_url;
@@ -55,7 +60,7 @@ class Project {
 	/**
 	 * @var string
 	 */
-	protected $acfPrefix = 'coding_simply_project_';
+	protected static $acfPrefix = 'coding_simply_project_';
 
 	/**
 	 * @var array
@@ -70,7 +75,7 @@ class Project {
 			[
 				'key'           => 'field_598122f309509',
 				'label'         => 'Git URL',
-				'name'          => $this->acfPrefix . 'git_url',
+				'name'          => self::acfName( 'git_url' ),
 				'type'          => 'text',
 				'instructions'  => 'Publicly access url for you git repo. A README.md file should be accessible.',
 				'required'      => 1,
@@ -82,12 +87,21 @@ class Project {
 				'maxlength'     => '',
 			],
 			[
+				'key'           => 'field_5986f0db875a5',
+				'label'         => 'Promote',
+				'name'          => self::acfName( 'promote' ),
+				'type'          => 'true_false',
+				'instructions'  => 'Should this project get promoted.',
+				'message'       => '',
+				'default_value' => 0,
+			],
+			[
 				'key'           => 'field_5981253d9d8d5',
 				'label'         => 'Icon URL',
-				'name'          => $this->acfPrefix . 'icon_url',
+				'name'          => self::acfName( 'icon_url' ),
 				'type'          => 'text',
 				'instructions'  => 'Publicly accessible url for project icon. Probably in your git repo.',
-				'required'      => 1,
+				'required'      => 0,
 				'default_value' => '',
 				'placeholder'   => 'http://',
 				'prepend'       => '',
@@ -98,12 +112,12 @@ class Project {
 			[
 				'key'           => 'field_59822f1db0898',
 				'label'         => 'Screenshot URL',
-				'name'          => $this->acfPrefix . 'screenshot_url',
+				'name'          => self::acfName( 'screenshot_url' ),
 				'type'          => 'text',
 				'instructions'  => 'Publicly accessible url for a project screenshot. Probably in your git repo.',
 				'default_value' => '',
 				'placeholder'   => 'http://',
-				'required'      => 1,
+				'required'      => 0,
 				'prepend'       => '',
 				'append'        => '',
 				'formatting'    => 'none',
@@ -112,7 +126,7 @@ class Project {
 			[
 				'key'           => 'field_59822f3fb0899',
 				'label'         => 'Screenshot URL 2',
-				'name'          => $this->acfPrefix . 'screenshot_url_2',
+				'name'          => self::acfName( 'screenshot_url_2' ),
 				'type'          => 'text',
 				'instructions'  => 'Publicly accessible url for a project screenshot. Probably in your git repo.',
 				'default_value' => '',
@@ -125,7 +139,7 @@ class Project {
 			[
 				'key'           => 'field_59822f58b089a',
 				'label'         => 'Screenshot URL 3',
-				'name'          => $this->acfPrefix . 'screenshot_url_3',
+				'name'          => self::acfName( 'screenshot_url_3' ),
 				'type'          => 'text',
 				'instructions'  => 'Publicly accessible url for a project screenshot. Probably in your git repo.',
 				'default_value' => '',
@@ -138,7 +152,7 @@ class Project {
 			[
 				'key'           => 'field_59822f6ab089b',
 				'label'         => 'Screenshot URL 4',
-				'name'          => $this->acfPrefix . 'screenshot_url_4',
+				'name'          => self::acfName( 'screenshot_url_4' ),
 				'type'          => 'text',
 				'instructions'  => 'Publicly accessible url for a project screenshot. Probably in your git repo.',
 				'default_value' => '',
@@ -151,7 +165,7 @@ class Project {
 			[
 				'key'           => 'field_59822f78b089c',
 				'label'         => 'Screenshot URL 5',
-				'name'          => $this->acfPrefix . 'screenshot_url_5',
+				'name'          => self::acfName( 'screenshot_url_5' ),
 				'type'          => 'text',
 				'instructions'  => 'Publicly accessible url for a project screenshot. Probably in your git repo.',
 				'default_value' => '',
@@ -165,6 +179,16 @@ class Project {
 	}
 
 	/**
+	 * Helper method for getting the acf name from a local field name.
+	 * @param $local string field name that will map to an acf name.
+	 *
+	 * @return string
+	 */
+	public static function acfName( $local ) {
+		return self::$acfPrefix . $local;
+	}
+
+	/**
 	 * Get a Project from a Post.
 	 *
 	 * @param $post \WP_Post
@@ -175,7 +199,7 @@ class Project {
 		$project = new Project();
 		$p       = get_fields( $post->ID );
 		foreach ( $project->acfFields as $key => $field ) {
-			$local             = str_replace( $project->acfPrefix, '', $field['name'] );
+			$local             = str_replace( self::$acfPrefix, '', $field['name'] );
 			$project->{$local} = $p[ $field['name'] ];
 		}
 		$project->post = $post;
@@ -218,7 +242,7 @@ class Project {
 		];
 		$args   = [
 			'label'               => __( 'Project', Config::TEXT_DOMAIN ),
-			'description'         => __( 'Project Description', Config::TEXT_DOMAIN ),
+//			'description'         => __( 'Project Description', Config::TEXT_DOMAIN ),
 			'labels'              => $labels,
 			'supports'            => [],
 			'taxonomies'          => [ 'category', 'post_tag' ],
@@ -235,7 +259,7 @@ class Project {
 			'publicly_queryable'  => true,
 			'capability_type'     => 'page',
 			'show_in_rest'        => true,
-			'rest_base'           => '/projects/',
+			'rest_base'           => 'projects',
 		];
 		register_post_type( Config::PROJECT_POST_TYPE, $args );
 	}
@@ -246,7 +270,7 @@ class Project {
 	public function meta_box() {
 		if ( function_exists( "register_field_group" ) ) {
 			register_field_group( [
-				'id'         => 'acf_' . $this->acfPrefix . 'info',
+				'id'         => 'acf_' . self::$acfPrefix . 'info',
 				'title'      => 'Project Info',
 				'fields'     => $this->acfFields,
 				'location'   => [
