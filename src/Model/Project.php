@@ -3,8 +3,6 @@
 namespace CodingSimplyProjects\Model;
 
 
-use CodingSimplyProjects\Config\Config;
-
 /**
  * Model that describes a project.
  *
@@ -23,9 +21,16 @@ class Project extends AcfModel {
 	public $promote;
 
 	/**
+	 * Url of the application icon.
 	 * @var string
 	 */
 	public $icon_url;
+
+	/**
+	 * URL for the store entry: Google Play, iTunes, Windows, Snap...
+	 * @var string
+	 */
+	public $store_url;
 
 	/**
 	 * @var string
@@ -87,6 +92,20 @@ class Project extends AcfModel {
 				'instructions'  => 'Should this project get promoted.',
 				'message'       => '',
 				'default_value' => 0,
+			],
+			[
+				'key'           => 'field_59789adfad8d5',
+				'label'         => 'Store URL',
+				'name'          => self::acfName( 'store_url' ),
+				'type'          => 'text',
+				'instructions'  => 'URL to the store entry.',
+				'required'      => 0,
+				'default_value' => '',
+				'placeholder'   => 'http://',
+				'prepend'       => '',
+				'append'        => '',
+				'formatting'    => 'none',
+				'maxlength'     => '',
 			],
 			[
 				'key'           => 'field_5981253d9d8d5',
