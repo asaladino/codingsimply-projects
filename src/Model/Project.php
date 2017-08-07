@@ -10,7 +10,7 @@ use CodingSimplyProjects\Config\Config;
  *
  * @package CodingSimplyProjects\Model
  */
-class Project {
+class Project extends AcfModel {
 
 	/**
 	 * @var string
@@ -53,19 +53,12 @@ class Project {
 	public $screenshot_url_5;
 
 	/**
-	 * @var \WP_Post
+	 * Check if the project has an icon.
+	 * @return bool
 	 */
-	public $post;
-
-	/**
-	 * @var string
-	 */
-	protected static $acfPrefix = 'coding_simply_project_';
-
-	/**
-	 * @var array
-	 */
-	protected $acfFields = [];
+	public function hasIcon() {
+		return ! empty( $this->icon_url );
+	}
 
 	/**
 	 * Need to load the acf fields during construction of the project object.
@@ -176,121 +169,5 @@ class Project {
 				'maxlength'     => '',
 			]
 		];
-	}
-
-	/**
-	 * Helper method for getting the acf name from a local field name.
-	 * @param $local string field name that will map to an acf name.
-	 *
-	 * @return string
-	 */
-	public static function acfName( $local ) {
-		return self::$acfPrefix . $local;
-	}
-
-	/**
-	 * Get a Project from a Post.
-	 *
-	 * @param $post \WP_Post
-	 *
-	 * @return Project
-	 */
-	public static function init( $post ) {
-		$project = new Project();
-		$p       = get_fields( $post->ID );
-		foreach ( $project->acfFields as $key => $field ) {
-			$local             = str_replace( self::$acfPrefix, '', $field['name'] );
-			$project->{$local} = $p[ $field['name'] ];
-		}
-		$project->post = $post;
-
-		return $project;
-	}
-
-	/**
-	 * Creates the custom post type for the project.
-	 */
-	public function custom() {
-		$labels = [
-			'name'                  => _x( 'Projects', 'Project General Name', Config::TEXT_DOMAIN ),
-			'singular_name'         => _x( 'Project', 'Project Singular Name', Config::TEXT_DOMAIN ),
-			'menu_name'             => __( 'Projects', Config::TEXT_DOMAIN ),
-			'name_admin_bar'        => __( 'Project', Config::TEXT_DOMAIN ),
-			'archives'              => __( 'Project Archives', Config::TEXT_DOMAIN ),
-			'attributes'            => __( 'Project Attributes', Config::TEXT_DOMAIN ),
-			'parent_item_colon'     => __( 'Parent Project:', Config::TEXT_DOMAIN ),
-			'all_items'             => __( 'All Projects', Config::TEXT_DOMAIN ),
-			'add_new_item'          => __( 'Add New Project', Config::TEXT_DOMAIN ),
-			'add_new'               => __( 'Add New', Config::TEXT_DOMAIN ),
-			'new_item'              => __( 'New Project', Config::TEXT_DOMAIN ),
-			'edit_item'             => __( 'Edit Project', Config::TEXT_DOMAIN ),
-			'update_item'           => __( 'Update Project', Config::TEXT_DOMAIN ),
-			'view_item'             => __( 'View Project', Config::TEXT_DOMAIN ),
-			'view_items'            => __( 'View Projects', Config::TEXT_DOMAIN ),
-			'search_items'          => __( 'Search Project', Config::TEXT_DOMAIN ),
-			'not_found'             => __( 'Not found', Config::TEXT_DOMAIN ),
-			'not_found_in_trash'    => __( 'Not found in Trash', Config::TEXT_DOMAIN ),
-			'featured_image'        => __( 'Featured Image', Config::TEXT_DOMAIN ),
-			'set_featured_image'    => __( 'Set featured image', Config::TEXT_DOMAIN ),
-			'remove_featured_image' => __( 'Remove featured image', Config::TEXT_DOMAIN ),
-			'use_featured_image'    => __( 'Use as featured image', Config::TEXT_DOMAIN ),
-			'insert_into_item'      => __( 'Insert into project', Config::TEXT_DOMAIN ),
-			'uploaded_to_this_item' => __( 'Uploaded to this project', Config::TEXT_DOMAIN ),
-			'items_list'            => __( 'Projects list', Config::TEXT_DOMAIN ),
-			'items_list_navigation' => __( 'Projects list navigation', Config::TEXT_DOMAIN ),
-			'filter_items_list'     => __( 'Filter projects list', Config::TEXT_DOMAIN ),
-		];
-		$args   = [
-			'label'               => __( 'Project', Config::TEXT_DOMAIN ),
-			'description'         => __( 'Project Description', Config::TEXT_DOMAIN ),
-			'labels'              => $labels,
-			'supports'            => [],
-			'taxonomies'          => [ 'category', 'post_tag' ],
-			'hierarchical'        => false,
-			'public'              => true,
-			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'menu_position'       => 5,
-			'show_in_admin_bar'   => true,
-			'show_in_nav_menus'   => true,
-			'can_export'          => true,
-			'has_archive'         => true,
-			'exclude_from_search' => false,
-			'publicly_queryable'  => true,
-			'capability_type'     => 'page',
-			'show_in_rest'        => true,
-			'rest_base'           => 'projects',
-		];
-		register_post_type( Config::PROJECT_POST_TYPE, $args );
-	}
-
-	/**
-	 * Creates a meta box for the project parameters on the custom post type using acf.
-	 */
-	public function meta_box() {
-		if ( function_exists( "register_field_group" ) ) {
-			register_field_group( [
-				'id'         => 'acf_' . self::$acfPrefix . 'info',
-				'title'      => 'Project Info',
-				'fields'     => $this->acfFields,
-				'location'   => [
-					[
-						[
-							'param'    => 'post_type',
-							'operator' => '==',
-							'value'    => Config::PROJECT_POST_TYPE,
-							'order_no' => 0,
-							'group_no' => 0,
-						],
-					],
-				],
-				'options'    => [
-					'position'       => 'normal',
-					'layout'         => 'default',
-					'hide_on_screen' => [],
-				],
-				'menu_order' => 0
-			] );
-		}
 	}
 }
