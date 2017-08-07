@@ -4,7 +4,7 @@ Plugin Name: Projects by CS;
 Plugin URI: http://wordpress.org/plugins/codingsimply-projects/
 Description: Display your projects in on your wp site and connect with your public git repo.
 Author: Adam Saladino
-Version: 0.1
+Version: 0.1.0
 Author URI: https://codingsimply.com
 Text Domain: codingsimply-projects
 */
