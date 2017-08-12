@@ -34,12 +34,45 @@ class AcfModel {
 
 	/**
 	 * Name of the model.
+	 *
 	 * @var string
 	 */
 	public static $name = '';
 
+	/**
+	 * Used to help loop through repeat fields. Loop field names should have the following format:
+	 *
+	 * field
+	 * field_2
+	 * field_3
+	 * ...
+	 *
+	 * This array will have the field and next index of the field. Example:
+	 * array(
+	 *  'field' => 3
+	 * )
+	 *
+	 * Means field_3 is next in the loop.
+	 *
+	 * @var array
+	 */
 	public $loops = [];
 
+	/**
+	 * Increment the next value/field in the loop. Example:
+	 * array(
+	 *  'field' => 2
+	 * )
+	 * will get incremented to:
+	 * array(
+	 *  'field' => 3
+	 * )
+	 * or unset if there are no more fields in the loop.
+	 *
+	 * @param string $field to get the next value for.
+	 *
+	 * @return bool true if there is a next value.
+	 */
 	public function loop( $field ) {
 		if ( ! isset( $this->loops[ $field ] ) ) {
 			$this->loops[ $field ] = 0;
@@ -59,6 +92,13 @@ class AcfModel {
 		return true;
 	}
 
+	/**
+	 * Gets the current value in a loop for a field.
+	 *
+	 * @param string $field to get the value for.
+	 *
+	 * @return mixed whatever is in the field.
+	 */
 	public function now( $field ) {
 		if ( $this->loops[ $field ] === 1 ) {
 			return $this->$field;
@@ -67,6 +107,13 @@ class AcfModel {
 		return $this->{$field . '_' . $this->loops[ $field ]};
 	}
 
+	/**
+	 * Checks if a field has a value.
+	 *
+	 * @param string $field to check.
+	 *
+	 * @return bool true if the field has a value.
+	 */
 	public function hasValue( $field ) {
 		$value = $this->now( $field );
 
@@ -83,7 +130,6 @@ class AcfModel {
 	public static function acfName( $local ) {
 		return self::acfPrefix() . $local;
 	}
-
 
 	/**
 	 * Creates a prefix for acf.
