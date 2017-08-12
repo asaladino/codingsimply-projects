@@ -10,6 +10,5 @@ class Plugin {
 		$project = new Project();
 		$project->custom();
 		$project->meta_box();
-
 	}
 }

@@ -4,10 +4,17 @@ namespace CodingSimplyProjects\Core\Repository;
 
 use CodingSimplyProjects\Model\Project;
 
+/**
+ * Reads and writes projects to wordpres.
+ *
+ * @package CodingSimplyProjects\Core\Repository
+ */
 class ProjectsRepository {
 
 	/**
-	 * @return Project[]
+	 * Find the most recent promoted projects.
+	 *
+	 * @return Project[] a list of projects.
 	 */
 	public static function promoted() {
 		$posts    = get_posts( [

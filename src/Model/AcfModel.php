@@ -4,19 +4,30 @@ namespace CodingSimplyProjects\Model;
 
 use CodingSimplyProjects\Config\Config;
 
+/**
+ * Helps create an custom post type with advanced custom fields.
+ *
+ * @package CodingSimplyProjects\Model
+ */
 class AcfModel {
 
 	/**
+	 * Wordpress post hosting the model.
+	 *
 	 * @var \WP_Post
 	 */
 	public $post;
 
 	/**
+	 * Additional fields for the model using acf.
+	 *
 	 * @var array
 	 */
 	public $acfFields = [];
 
 	/**
+	 * Used to prefix the custom post type fields.
+	 *
 	 * @var string
 	 */
 	public static $acfPrefix = '';
@@ -30,7 +41,7 @@ class AcfModel {
 	public $loops = [];
 
 	public function loop( $field ) {
-		if ( !isset( $this->loops[ $field ] ) ) {
+		if ( ! isset( $this->loops[ $field ] ) ) {
 			$this->loops[ $field ] = 0;
 		}
 		$this->loops[ $field ] ++;
@@ -56,9 +67,10 @@ class AcfModel {
 		return $this->{$field . '_' . $this->loops[ $field ]};
 	}
 
-	public function hasValue($field) {
-		$value = $this->now($field);
-		return !is_null($value) && !empty($value);
+	public function hasValue( $field ) {
+		$value = $this->now( $field );
+
+		return ! is_null( $value ) && ! empty( $value );
 	}
 
 	/**
