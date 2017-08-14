@@ -9,9 +9,9 @@ Author URI: https://codingsimply.com
 Text Domain: codingsimply-projects
 */
 
-namespace CodingSimplyProjects;
+namespace CodingSimply\WpPlugin;
 
-use CodingSimplyProjects\Config\Plugin;
+use CodingSimply\WpPlugin\Config\Plugin;
 
 require_once __DIR__ . '/vendor/autoload.php';
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace CodingSimplyProjects\View\Helper;
+namespace CodingSimply\WpPlugin\View\Helper;
 
-use CodingSimplyProjects\Model\Project;
+use CodingSimply\WpPlugin\Model\Project;
 
 /**
  * Will helps outputting the project.
@@ -59,6 +59,13 @@ class ProjectHelper {
 				<div class='project-owner'>{$owner}</div></div>";
 	}
 
+	/**
+	 * Creates an img for the first screenshot.
+	 *
+	 * @param string $class css for the image. Default is thumbnail.
+	 *
+	 * @return string|null img tag for the screenshot.
+	 */
 	public function getScreenShot( $class = 'thumbnail' ) {
 		if ( $this->project->hasValue( 'screenshot_url' ) ) {
 			return "<img src='{$this->project->now( 'screenshot_url' )}' class='$class' />";

@@ -1,6 +1,6 @@
 <?php
 
-namespace CodingSimplyProjects\Config;
+namespace CodingSimply\WpPlugin\Config;
 
 
 class Config {
