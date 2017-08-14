@@ -1,6 +1,6 @@
 <?php
 
-namespace CodingSimplyProjects\Controller;
+namespace CodingSimply\WpPlugin\Controller;
 
 /**
  * Just in case a short code is needed or settings for the project model.

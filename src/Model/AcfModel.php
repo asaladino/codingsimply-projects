@@ -1,8 +1,8 @@
 <?php
 
-namespace CodingSimplyProjects\Model;
+namespace CodingSimply\WpPlugin\Model;
 
-use CodingSimplyProjects\Config\Config;
+use CodingSimply\WpPlugin\Config\Config;
 
 /**
  * Helps create an custom post type with advanced custom fields.

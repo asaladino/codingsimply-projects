@@ -1,8 +1,8 @@
 <?php
 
-namespace CodingSimplyProjects\View\Helper;
+namespace CodingSimply\WpPlugin\View\Helper;
 
-use CodingSimplyProjects\Model\Project;
+use CodingSimply\WpPlugin\Model\Project;
 
 /**
  * Will helps outputting the project.

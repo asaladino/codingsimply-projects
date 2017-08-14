@@ -1,8 +1,8 @@
 <?php
 
-namespace CodingSimplyProjects\Config;
+namespace CodingSimply\WpPlugin\Config;
 
-use CodingSimplyProjects\Model\Project;
+use CodingSimply\WpPlugin\Model\Project;
 
 class Plugin {
 

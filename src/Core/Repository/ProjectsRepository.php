@@ -1,8 +1,8 @@
 <?php
 
-namespace CodingSimplyProjects\Core\Repository;
+namespace CodingSimply\WpPlugin\Core\Repository;
 
-use CodingSimplyProjects\Model\Project;
+use CodingSimply\WpPlugin\Model\Project;
 
 /**
  * Reads and writes projects to wordpres.

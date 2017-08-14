@@ -1,6 +1,6 @@
 <?php
 
-namespace CodingSimplyProjects\Model;
+namespace CodingSimply\WpPlugin\Model;
 
 
 /**
